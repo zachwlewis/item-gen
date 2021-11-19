@@ -1,0 +1,11 @@
+Small
+Large
+Round
+Sharp
+Heavy
+Light
+Fast
+Charged
+Explosive
+Magnetic
+Repulsive

@@ -1,0 +1,10 @@
+Wood
+Stone
+Iron
+Bronze
+Silver
+Gold
+Ruby
+Cobalt
+Jet
+Diamond
