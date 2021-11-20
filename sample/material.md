@@ -1,10 +1,12 @@
-Wood
-Stone
-Iron
-Bronze
-Silver
-Gold
-Ruby
-Cobalt
-Jet
-Diamond
+| name    | tags             | global_multiplier |
+| :------ | :--------------- | ----------------: |
+| Wood    | Material.Wood    |              0.25 |
+| Stone   | Material.Stone   |               0.5 |
+| Iron    | Material.Iron    |                 1 |
+| Bronze  | Material.Bronze  |               1.2 |
+| Silver  | Material.Silver  |               1.1 |
+| Gold    | Material.Gold    |               1.3 |
+| Ruby    | Material.Ruby    |               1.5 |
+| Cobalt  | Material.Cobalt  |               2.1 |
+| Jet     | Material.Jet     |               2.4 |
+| Diamond | Material.Diamond |               3.2 |
