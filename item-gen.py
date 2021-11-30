@@ -1,5 +1,6 @@
 import sys
 import re
+from item_data import Item
 
 def parseFile(path: str) -> list[dict]:
   parsed = []
@@ -56,15 +57,15 @@ base_components = ['Greeble', 'Flonk', 'Bingle', 'Toff', 'Rund']
 total_items = len(base) * len(material) * len(prefix)
 print(f'Generating {total_items} items')
 
+item_data: list[Item] = []
+for b in base:
+  for m in material:
+    for p in prefix:
+      item_data.append(Item(b,m,p))
+
 with open(output_file, 'w+') as f:
   f.write('id,name,tags,damage,defense,speed\n')
-  for b in base:
-    for m in material:
-      for p in prefix:
-        id = f"{p['name']}_{m['name']}_{b['name']}".lower()
-        name = f"{p['name']} {m['name']} {b['name']}"
-        tag = ', '.join(tags(p).union(tags(m)).union(tags(b)))
-        damage = float(b['damage']) * (multiplier('damage', p) + multiplier('damage',m))
-        defense = float(b['defense']) * (multiplier('defense', p) + multiplier('defense',m))
-        speed = float(b['speed']) * (multiplier('speed', p) + multiplier('speed',m))
-        f.write(f'"{id}","{name}","[{tag}]","{damage}","{defense}","{speed}"\n')
+  for item in item_data:
+    f.write(f'"{item.id()}","{item.name()}","[{", ".join(item.tags())}]","{item.damage()}","{item.defense()}","{item.speed()}"\n')
+
+print(f'Wrote {total_items} items to "{output_file}".')
