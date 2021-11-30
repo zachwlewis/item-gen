@@ -2,6 +2,41 @@ import sys
 import re
 from item_data import Item
 
+def main():
+  if len(sys.argv) != 2:
+    sys.exit('Missing directory path.')
+
+  workroot = sys.argv[1]
+  print(f'Reading data from "{workroot}".')
+
+  base_file = workroot + '/base.md'
+  material_file = workroot + '/material.md'
+  prefix_file = workroot + '/prefix.md'
+  output_file = workroot + '/output.csv'
+
+  base: list[dict] = parseFile(base_file)
+  material: list[dict] = parseFile(material_file)
+  prefix: list[dict] = parseFile(prefix_file)
+
+  base_components = ['Greeble', 'Flonk', 'Bingle', 'Toff', 'Rund']
+
+  total_items = len(base) * len(material) * len(prefix)
+  print(f'Generating {total_items} items')
+
+  item_data: list[Item] = []
+  for b in base:
+    for m in material:
+      for p in prefix:
+        item_data.append(Item(b,m,p))
+
+  with open(output_file, 'w+') as f:
+    f.write('id,name,tags,damage,defense,speed\n')
+    for item in item_data:
+      f.write(f'"{item.id()}","{item.name()}","[{", ".join(item.tags())}]","{item.damage()}","{item.defense()}","{item.speed()}"\n')
+
+  print(f'Wrote {total_items} items to "{output_file}".')
+
+
 def parseFile(path: str) -> list[dict]:
   parsed = []
   print(f'Reading "{path}"...')
@@ -30,35 +65,5 @@ def parseFile(path: str) -> list[dict]:
   print(f'- Read {len(parsed)} items from "{path}".')
   return parsed
 
-if len(sys.argv) != 2:
-  sys.exit('Missing directory path.')
-
-workroot = sys.argv[1]
-print(f'Reading data from "{workroot}".')
-
-base_file = workroot + '/base.md'
-material_file = workroot + '/material.md'
-prefix_file = workroot + '/prefix.md'
-output_file = workroot + '/output.csv'
-
-base: list[dict] = parseFile(base_file)
-material: list[dict] = parseFile(material_file)
-prefix: list[dict] = parseFile(prefix_file)
-
-base_components = ['Greeble', 'Flonk', 'Bingle', 'Toff', 'Rund']
-
-total_items = len(base) * len(material) * len(prefix)
-print(f'Generating {total_items} items')
-
-item_data: list[Item] = []
-for b in base:
-  for m in material:
-    for p in prefix:
-      item_data.append(Item(b,m,p))
-
-with open(output_file, 'w+') as f:
-  f.write('id,name,tags,damage,defense,speed\n')
-  for item in item_data:
-    f.write(f'"{item.id()}","{item.name()}","[{", ".join(item.tags())}]","{item.damage()}","{item.defense()}","{item.speed()}"\n')
-
-print(f'Wrote {total_items} items to "{output_file}".')
+if __name__ == '__main__':
+  main()
