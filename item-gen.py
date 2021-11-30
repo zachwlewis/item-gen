@@ -30,13 +30,6 @@ def parseFile(path: str) -> list[dict]:
   print(f'- Read {len(parsed)} items from "{path}".')
   return parsed
 
-def tags(item: dict) -> set:
-  t = item.get('tags', '')
-  return set(re.split(r',\s*',t))
-
-def multiplier(prop: str, item: dict) -> float:
-  return float(item.get('global_multipler',"1")) + float(item.get(f'{prop}_multiplier',"1"))
-
 if len(sys.argv) != 2:
   sys.exit('Missing directory path.')
 
